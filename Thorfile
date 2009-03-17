@@ -24,6 +24,7 @@ SPEC = Gem::Specification.new do |s|
   s.rubyforge_project = PROJECT
 
   s.require_path = 'lib'
+  s.add_dependency("hpricot", ">=0.6")
   s.files = s.extra_rdoc_files + %w(Rakefile) + Dir.glob("{lib,specs}/**/*")
 end
 
