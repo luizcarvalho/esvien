@@ -49,8 +49,8 @@ module Esvien
         doc = svnxml(:info, uri)
         entry = doc.at('/info/entry')
         @revision = entry.attributes['revision'].to_i
-        repo = entry.at('repository')
-        @uuid = repo.at('uuid').inner_text
+        repo = entry.children_of_type('repository').first
+        @uuid = repo.children_of_type('uuid').first.inner_text
       rescue Esvien::CLIError
         raise Esvien::BadRepository, self
       end
