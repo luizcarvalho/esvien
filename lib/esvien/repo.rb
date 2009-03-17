@@ -11,7 +11,7 @@ module Esvien
     def commits(range=nil)
       return [] if @revision == 0
 
-      doc = svnxml(:log, '-r', range || '1:HEAD', uri)
+      doc = svnxml(:log, '-r', svn_range_string(range) || '1:HEAD', uri)
       elems = doc.search('/log/logentry')
       elems.map do |elem|
         commit = Commit.new(elem.attributes['revision'].to_i, self)
@@ -29,6 +29,19 @@ module Esvien
       uuid == other.uuid
     end
 
+    def pretty_print(pp)
+      pp.group(1, %{#<#{self.class}}, %{>}) do
+        pp.breakable
+        pp.seplist(%w[uri uuid], lambda { pp.comma_breakable }) do |attr|
+          pp.text(attr)
+          pp.text("=")
+          pp.pp(send(attr))
+        end
+      end
+    end
+
+    alias_method :inspect, :pretty_print_inspect
+
     private
 
     def get_repository_info
@@ -40,6 +53,17 @@ module Esvien
         @uuid = repo.at('uuid').inner_text
       rescue Esvien::CLIError
         raise Esvien::BadRepository, self
+      end
+    end
+
+    def svn_range_string(range)
+      case range
+      when nil
+        return nil
+      when Range
+        "#{range.first}:#{range.last}"
+      else
+        range.to_s
       end
     end
 

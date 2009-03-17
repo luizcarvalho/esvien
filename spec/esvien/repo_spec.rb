@@ -64,6 +64,10 @@ describe Esvien::Repo do
       it "has a commit list of all the commits in the repo" do
         repo.commits.should have(1).commit
       end
+
+      it "can get a range of commits" do
+        repo.commits(1..1).should == [repo.head]
+      end
     end
   end
 end
