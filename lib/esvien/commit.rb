@@ -13,9 +13,15 @@ module Esvien
     end
 
     def <=>(other)
-      raise ArgumentError, "Cannot compare #{self.class} with #{other.class}" unless other.is_a?(Commit)
-      raise Esvien::RepositoryMismatch unless repo == other.repo
-      id <=> other.id
+      if other.is_a?(Commit)
+        if self.repo == other.repo
+          return id <=> other.id
+        else
+          raise Esvien::RepositoryMismatch
+        end
+      else
+        raise ArgumentError, "Cannot compare #{self.class} with #{other.class}"
+      end
     end
 
     def pretty_print(pp)
