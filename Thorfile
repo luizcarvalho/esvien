@@ -39,4 +39,34 @@ class Default < Thor
       file.puts SPEC.to_ruby
     end
   end
+
+  desc "release", "Publish esvien release files to RubyForge."
+  def release
+    begin
+      full_name = "#{PROJECT}-#{GEM_VERSION}"
+      require 'rubyforge'
+
+      r = RubyForge.new
+      r.configure
+
+      puts "\nLogging in...\n\n"
+      r.login
+
+      puts "Packaging #{full_name}"
+      package
+
+      puts "Adding #{full_name}"
+      file = "pkg/#{full_name}.gem"
+      r.add_release PROJECT, PROJECT, GEM_VERSION, file
+      r.add_file    PROJECT, PROJECT, GEM_VERSION, file
+    rescue LoadError => e
+      abort "Unable to load the 'rubyforge' gem (try `sudo gem install rubyforge`)."
+    rescue Exception => e
+      if e.message =~ /You have already released this version/
+        puts "You already released #{full_name}. Continuing\n\n"
+      else
+        raise e
+      end
+    end
+  end
 end
