@@ -4,12 +4,14 @@ module Esvien
     attr_reader :repo
     attr_accessor :author
     attr_accessor :date
+    attr_accessor :msg
 
     include Comparable
 
     def initialize(id, repo)
       @id = id
       @repo = repo
+      @msg = ''
     end
 
     def <=>(other)

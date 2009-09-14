@@ -17,6 +17,7 @@ module Esvien
         commit = Commit.new(elem.attributes['revision'].to_i, self)
         commit.author = elem.children_of_type('author').first.inner_text
         commit.date = Time.parse(elem.children_of_type('date').first.inner_text)
+        commit.msg = elem.children_of_type('msg').first.inner_text
         commit
       end
     end

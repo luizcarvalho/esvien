@@ -3,7 +3,7 @@ require 'rubygems/specification'
 require 'thor/tasks'
 
 GEM = "esvien"
-GEM_VERSION = "0.0.1"
+GEM_VERSION = "0.0.2"
 AUTHOR = "Brian Donovan"
 EMAIL = "brian.donovan@gmail.com"
 HOMEPAGE = "http://github.com/eventualbuddha/esvien"
