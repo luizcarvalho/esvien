@@ -13,6 +13,8 @@ Example
     => "gstein"
     >> head.date
     => Tue Mar 17 17:37:56 UTC 2009
+    >> head.msg
+    => "Changed layout"
 
 Install
 -------
